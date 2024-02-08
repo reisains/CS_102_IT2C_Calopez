@@ -1,0 +1,96 @@
+---
+title: "LabExer1"
+output: pdf_document
+date: "2024-02-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages(rvest)
+install.packages(dplyr)
+install.packages(polite)
+install.packages(tidyverse)
+
+library(rvest)
+library(dplyr)
+library(polite)
+library(tidyverse)
+
+```
+
+```{r}
+library(rvest)
+library(dplyr)
+library(polite)
+
+url <- "https://www.amazon.co.uk/s?k=slides&crid=38UVNRLWHLBX&sprefix=slid%2Caps%2C500&ref=nb_sb_noss_2"
+
+session <- bow(url,user_agent = "For Educational Purposes")
+
+amazon <- read_html(url)
+
+
+slides <- scrape(session) %>%
+  html_nodes("span.a-text-normal") %>%
+  html_text
+slides
+slides54 <- slides[2:55]
+slides54
+
+slides_prices <- scrape(session) %>%
+  html_nodes("span.a-offscreen") %>%
+  html_text
+slides_prices
+slides_prices1 <- slides_prices[2:55]
+slides_prices1
+
+slides_Ratings <- scrape(session) %>%
+  html_nodes("i.a-icon.a-icon-star-small.a-star-small-4.aok-align-bottom") %>%
+  html_text
+slides_Ratings
+slides_Ratings1 <- slides_Ratings[2:54]
+slides_Ratings1
+
+slides_noReviews <- scrape(session) %>%
+  html_nodes("span.a-size-base.s-underline-text") %>%
+  html_text
+slides_noReviews
+
+slides_noReviews1 <- slides_noReviews[2:55]
+slides_noReviews1
+
+url <- "https://www.amazon.co.uk/s?k=slides&page=2&crid=38UVNRLWHLBX&qid=1707354108&sprefix=slid%2Caps%2C500&ref=sr_pg_1"
+
+session <- bow(url,user_agent = "For Educational Purposes")
+
+amazon <- read_html(url)
+
+
+slides2 <- scrape(session) %>%
+  html_nodes("span.a-text-normal") %>%
+  html_text
+slides2
+slides44 <- slides[1:44]
+slides44
+
+slides_prices2 <- scrape(session) %>%
+  html_nodes("span.a-offscreen") %>%
+  html_text
+slides_prices2
+slides_prices_2 <- slides_prices2[2:55]
+slides_prices_2
+
+slides_Ratings2 <- scrape(session) %>%
+  html_nodes("i.a-icon.a-icon-star-small.a-star-small-4.aok-align-bottom") %>%
+  html_text
+slides_Ratings2
+
+slides_noReviews2 <- scrape(session) %>%
+  html_nodes("span.a-size-base.s-underline-text") %>%
+  html_text
+slides_noReviews2
+```
+
