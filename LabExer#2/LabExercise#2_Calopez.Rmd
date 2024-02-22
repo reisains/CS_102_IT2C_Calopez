@@ -1,0 +1,480 @@
+---
+title: "LabExer2"
+author: "Rey Angelo Calopez"
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Scraping 50 products
+```{r}
+
+library(dplyr)
+library(rvest)
+library(polite)
+library(httr)
+library(selectr)
+
+scrapeAmazonReviews <- function(product_name, url_stub, pages) {
+  product_df <- data.frame()
+
+  for (page in pages) {
+    link <- paste0("https://www.amazon.co.uk/ref=nav_logo",url_stub,"/ref=cm_cr_arp_d_paging_btm_next_", page, "?ie=UTF8&reviewerType=all_reviews&pageNumber=", page)
+    session <- bow(link, user_agent = "Educational Purpose")
+
+    scrapeNodes <- function(selector) {
+      scrape(session) %>%
+        html_nodes(selector) %>%
+        html_text(trim = TRUE)
+    }
+
+    scrapedTitle <- scrapeNodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold")[1:10]
+    scrapedReviewer <- scrapeNodes("span.a-profile-name")[1:10]
+    scrapedReview <- scrapeNodes("span.a-size-base.review-text.review-text-content")[1:10]
+    scrapedDate <- scrapeNodes("span.a-size-base.a-color-secondary.review-date")[1:10]
+    scrapedRating <- scrapeNodes("span.a-icon-alt")[1:10]
+    scrapedType <- scrapeNodes("span.a-size-mini.a-color-state.a-text-bold")[1:10]
+
+    product_df <- rbind(product_df, data.frame(
+      prod_name = product_name,
+      title = scrapedTitle,
+      reviewer = scrapedReviewer,
+      review = scrapedReview,
+      date = scrapedDate,
+      ratings = scrapedRating,
+      type_of_purchase = scrapedType
+    ))
+
+    Sys.sleep(3)
+  }
+
+  return(product_df)
+}
+
+```
+
+1-10 Product
+
+```{r}
+    
+product1 <- scrapeAmazonReviews(
+  "adidas Unisex's Adilette Aqua Slide Sandal",
+  "Adidas-Unisex-Adults-Adilette-Beach/product-reviews/B07F73JQ96",
+  3:7
+)
+
+
+product2 <- scrapeAmazonReviews(  
+  "Crocs Unisex Classic Sandal",
+  "Crocs-Unisex-Classic-Sandal-Navy/product-reviews/B08KJ9S6KV",
+  6:10
+)
+
+
+product3 <- scrapeAmazonReviews(
+  "PUMA Unisex's Purecat Slide Sandal",
+  "Puma-Purecat-Unisex-Open-Back-Peacoat/product-reviews/B011V53CW0",
+  3:7
+)
+
+
+product4 <- scrapeAmazonReviews(
+  "Arena Softy, Unisex Kids Slide Sandals",
+  "Arena-Softy-Slide-Sandals-Turquoise-Eolian/product-reviews/B01CX76T9S",
+  3:7
+)
+
+
+product5 <- scrapeAmazonReviews(
+  "Skechers Women's On-The-go 600-16259 Slide Sandal",
+  "Skechers-Womens-Open-Sandals-Textile/product-reviews/B07TYVQRM1",
+  3:7
+)
+
+
+product6 <- scrapeAmazonReviews(
+  "Arena Bruno, Unisex Slide Sandals",
+  "Arena-Unisexs-Bruno-Sandals-Yellow/product-reviews/B0968MT78Q",
+  3:7
+)
+
+
+product7 <- scrapeAmazonReviews(
+  "Crocs Unisex's Baya Ii Slides Clog",
+  "Crocs-Unisexs-Baya-Slides-Clog/product-reviews/B0CQ4C2QFT",
+  3:7
+)
+
+
+product8 <- scrapeAmazonReviews(
+  "Havaianas Unisex's Old Slide Brasil Sandal",
+  "Havaianas-Unisexs-Slide-Brasil-Sandal/product-reviews/B0CBVLDWBY",
+  3:7
+)
+
+product9 <- scrapeAmazonReviews(
+  "PUMA Women's Cool Cat 2.0 Sport WNS Slide Sandal",
+  "PUMA-Womens-Sport-Slide-Sandal/product-reviews/B09YVX97V1",
+  3:7
+)
+
+product10 <- scrapeAmazonReviews(
+  "Tommy Hilfiger Men's Rubber Th Flag Pool Slide Sandal",
+  "Tommy-Hilfiger-Mens-Rubber-Slide/product-reviews/B0BG2B3GY1",
+  6:10
+)
+
+```
+
+11-20 Products
+
+```{r}
+    
+product11 <- scrapeAmazonReviews(
+  "Fitflop Women's Iqushion Two-bar Buckle Slides Sandal",
+  "Fitflop-Womens-Iqushion-Two-bar-Buckle/product-reviews/B0C66H328V",
+  3:7
+)
+
+
+
+product12 <- scrapeAmazonReviews(
+  "adidas Unisex Kid's Adilette Aqua Slide Sandal",
+  "adidas-Unisex-Adilette-Fitness-Negbás/product-reviews/B07KSPTWHH",
+  3:7
+)
+
+
+product13 <- scrapeAmazonReviews(
+  "adidas Men's Adilette Aqua 3-Stripes Slides Sandal",
+  "adidas-Adilette-Sandal-Footwear-Metallic/product-reviews/B07ZQCNRPS",
+  3:7
+)
+
+product14 <- scrapeAmazonReviews(
+  "adidas Unisex's Adilette Aqua Slide Sandal",
+  "adidas-Unisex-Adults-Adilette-Bianco/product-reviews/B07K3698WB",
+  3:7
+)
+
+
+product15 <- scrapeAmazonReviews(
+  "Leevar Platform Sandals for Women ",
+  "Leevar-Platform-Sandals-Women-Backless/product-reviews/B0BTP1MYTR",
+  3:7
+)
+
+
+product16 <- scrapeAmazonReviews(
+  "Lico Unisex's Barracuda V Beach & Pool Shoes",
+  "Lico-Barracuda-Unisex-Adults-Royalblau/product-reviews/B005ZSFR5K",
+  3:7
+)
+
+
+product17 <- scrapeAmazonReviews(
+  "Fitflop Women's Iqushion Two-bar Buckle Slides Sandal",
+  "Fitflop-Womens-Iqushion-Buckle-Sandal/product-reviews/B0BHHWFP1T",
+  3:7
+)
+
+product18 <- scrapeAmazonReviews(
+  "Arena Softy, Unisex Kids Slide Sandals",
+  "Arena-Unisex-Softy-Fuchsia-Bright/product-reviews/B018UJYUBC",
+  3:7
+)
+
+
+product19 <- scrapeAmazonReviews(
+  "Arena Hydrosoft II Slide Sandals",
+  "Arena-Unisex-Badesandale-Hydrosoft-Sandals/product-reviews/B084485TGY",
+  4:8
+)
+
+
+product20 <- scrapeAmazonReviews(
+  "Havaianas Unisex Slide Classic Pop Gelb Schiebe-Sandalen",
+  "Havaianas-Unisex-Slide-Classic-Sandal/product-reviews/B0B6CFC4H1",
+  3:7
+)
+
+```
+
+Scraping 21-30
+
+```{r}
+
+product21 <- scrapeAmazonReviews(
+  "UGG Women's W Kenleigh Slide Sandal",
+  "UGG-Womens-Kenleigh-Sandal-Chestnut/product-reviews/B09ZL8MLTJ",
+  3:7
+)
+
+```
+
+
+```{r}
+product22 <- scrapeAmazonReviews(
+  "Under Armour Women's Ua W Locker Iv Sl Slide Sandal",
+  "Under-Armour-Womens-Locker-Sandal/product-reviews/B0BGQP8J36",
+  3:7
+)
+
+
+```
+
+```{r}
+
+product23 <- scrapeAmazonReviews(
+  "PUMA Women's Cool Cat 2.0 WNS Slide Sandal",
+  "PUMA-Womens-Slide-Sandal-Pink-Rose/product-reviews/B09YVLRKZM",
+  3:7
+)
+
+
+```
+
+
+```{r}
+product24 <- scrapeAmazonReviews(
+  "Fitflop Women's Iqushion Pool Slide Ii Shearling Sandal",
+  "Fitflop-Womens-Iqushion-Shearling-Sandal/product-reviews/B0BLF1WRRW",
+  3:7
+)
+```
+
+
+
+```{r}
+product25 <- scrapeAmazonReviews(
+  "Crocs Unisex's Minecraft Classic Slide SMU",
+  "Crocs-Unisex-Minecraft-Classic-Slide/product-reviews/B0B8DNYJ11",
+  3:7
+)
+
+
+```
+
+```{r}
+product26 <- scrapeAmazonReviews(
+  "NIVEA MEN Sensitive Face Moisturiser with Zero Percent Alcohol, Sensitive Skin Moisturiser, Men's Skin Care Essentials, (75ml)",
+  "NIVEA-Sensitive-Moisturiser-Percent-Essentials/product-reviews/B08G9C4TH4",
+  3:7
+)
+
+
+```
+
+```{r}
+product27 <- scrapeAmazonReviews(
+  "E45 Moisturiser for Dry Skin and Sensitive Skin Cream, 50g",
+  "E45-26557-Dermatological-Cream-50g/product-reviews/B002ISB9NO",
+  3:7
+)
+
+```
+
+```{r}
+product28 <- scrapeAmazonReviews(
+  "Neutrogena Hydro Boost Water Gel Moisturiser, 50 ml (Pack of 1)",
+  "Neutrogena-Hydro-Boost-Water-Moisturiser/product-reviews/B01LZUCVV5",
+  3:7
+)
+
+```
+
+```{r}
+product29 <- scrapeAmazonReviews(
+  "Garnier Intensive 7 Days Shea Butter Body Lotion Dry Skin, with glycerin - 400 ml",
+  "Garnier-Intensive-Butter-Lotion-400ml/product-reviews/B00E3BH6A4",
+  3:7
+)
+
+```
+
+31-40 Products
+
+```{r}
+product30 <- scrapeAmazonReviews(
+  "BYOMA Moisturizing Rich Cream 50ml",
+  "BYOMA-Moisturizing-Rich-Cream-50ml/product-reviews/B0BZX2RLNX",
+  3:7
+)
+
+
+```
+
+31-40 Products
+
+```{r}
+product31 <- scrapeAmazonReviews(
+  "BYOMA Moisturizing Gel Cream 50ml",
+  "BYOMA-Moisturizing-Gel-Cream-50ml/product-reviews/B0BJ74DJXG",
+  3:7
+)
+
+
+product32 <- scrapeAmazonReviews(
+  "NEUTROGENA® Clear & Radiant Moisturiser 50ml",
+  "Neutrogena-Refreshingly-Clear-Oil-Free-Moisturiser/product-reviews/B07WFXFDXV",
+  3:7
+)
+
+
+product33 <- scrapeAmazonReviews(
+  "NIVEA Q10 Firming Rich Body Lotion with Vitamin C (400ml)",
+  "NIVEA-Vitamin-Firming-Body-Lotion/product-reviews/B07999MP3C",
+  3:7
+)
+
+
+product34 <- scrapeAmazonReviews(
+  "Cetaphil Redness Relieving Daily Facial Moisturizer SPF 20, 1.7 Ounce",
+  "Cetaphil-Redness-Relieving-Facial-Moisturizer/product-reviews/B01M31HUYJ",
+  3:7
+)
+
+
+product35 <- scrapeAmazonReviews(
+  "Neutrogena Clear and Defend Moisturiser, 50 ml",
+  "Neutrogena-Visibly-Clear-Proofing-Moisturiser/product-reviews/B071XFFTF1",
+  3:7
+)
+
+
+
+product36 <- scrapeAmazonReviews(
+  "Neutrogena Visibly Renew Firming Body Lotion, Aloe Vera, 400ml",
+  "Neutrogena-Visibly-Renew-Body-Lotion/product-reviews/B00UG8OJMG",
+  3:7
+)
+
+
+
+product37 <- scrapeAmazonReviews(
+  "Bulldog Sensitive Moisturiser for Men, 100ml, (Pack of 1)",
+  "Bulldog-105696278-Sensitive-Moisturiser-100ml/product-reviews/B0050G2N8Q",
+  3:7
+)
+
+
+
+product38 <- scrapeAmazonReviews(
+  "Neutrogena Visibly Renew Firming Body Lotion, Aloe Vera, 400ml",
+  "Neutrogena-Visibly-Renew-Body-Lotion/product-reviews/B00UG8OJMG",
+  3:7
+)
+
+
+
+product39 <- scrapeAmazonReviews(
+  "E45 Dermatological Moisturising Lotion 200 ml – Body Lotion – Daily Moisturiser for Long-Lasting Hydration for Dry Skin and Sensitive Skin – Protect from Dryness, Reduce Redness and Flaking",
+  "E45-Dermatological-Moisturising-Lotion-200/product-reviews/B00127X15G",
+  3:7
+)
+
+
+product40 <- scrapeAmazonReviews(
+  "E45 Moisturiser for Dry Skin and Sensitive Skin Cream, 50g",
+  "E45-26557-Dermatological-Cream-50g/product-reviews/B002ISB9NO",
+  3:7
+)
+
+```
+
+41-50 Products
+
+```{r}
+product41 <- scrapeAmazonReviews(
+  "CeraVe Moisturizers, Moisturizing Facial Lotion AM, 3 Ounce",
+  "CeraVe-Moisturizers-Moisturizing-Facial-Lotion/product-reviews/B00F97FHAW",
+  3:7
+)
+
+
+product42 <- scrapeAmazonReviews(
+  "Clean & Clear Dual Action Moisturiser, 100ml",
+  "Clean-Clear-Action-Moisturiser-100ml/product-reviews/B001RYNKYQ",
+  3:7
+)
+
+
+product43 <- scrapeAmazonReviews(
+  "Neutrogena® Hydro Boost Gel Cream 50ml",
+  "Neutrogena-Hydro-Boost-Cream-Moisturiser/product-reviews/B01M1G3W04",
+  3:7
+)
+
+
+product44 <- scrapeAmazonReviews(
+  "Neutrogena Deep Moisture Fast Absorbing Balm, 300ml",
+  "Neutrogena-Norwegian-Formula-Moisture-Comfort/product-reviews/B008QNN2DU",
+  3:7
+)
+
+
+product45 <- scrapeAmazonReviews(
+  "Palmer's Cocoa Butter Formula Moisturizing Lotion 250ml, 4180",
+  "Palmers-Butter-Formula-Moisturizing-Lotion/product-reviews/B00119TXSO",
+  3:7
+)
+
+
+product46 <- scrapeAmazonReviews(
+  "NEUTROGENA® Clear & Soothe Moisturiser 75ml",
+  "Neutrogena-Clear-Soothe-Oil-Free-Moisturiser/product-reviews/B081S1YGXH",
+  3:7
+)
+
+
+product47 <- scrapeAmazonReviews(
+  "NEUTROGENA® Clear & Soothe Moisturiser 75ml",
+  "Neutrogena-Clear-Soothe-Oil-Free-Moisturiser/product-reviews/B081S1YGXH",
+  3:7
+)
+
+
+
+
+product48 <- scrapeAmazonReviews(
+  "Buttermilk Moisturizer 59ml",
+  "Mario-Badescu-Buttermilk-Moisturizer-59ml/product-reviews/B0BHJP1R2Q",
+  3:7
+)
+
+
+product49 <- scrapeAmazonReviews(
+  "Bio Balance Dermasebum Purifying Skin Care Cream, 55ml",
+  "Bio-Balance-Dermasebum-Purifying-Cream/product-reviews/B07MQTBCW2",
+  3:7
+)
+
+product50 <- scrapeAmazonReviews(
+  "FREZYDERM MOISTURIZING Plus Cream PN: B00TDQ7LOK",
+  "FrezyDerm-427101-FREZYDERM-Moisturizing-Cream/product-reviews/B00TDQ7LOK",
+  3:7
+)
+
+```
+
+
+```{r}
+
+allProds = data.frame();
+
+allProds <- rbind(allProds, product1, product2, product3, product4, product5, product6, product7, product8, product9, product10,
+                product11, product12, product13, product14, product15, product16, product17, product18, product19, product20,
+                product21, product22, product23, product24, product25, product26, product27, product28, product29, product30,
+                product31, product32, product33, product34, product35, product36, product37, product38, product39, product40,
+                product41, product42, product43, product44, product45, product46, product47, product48, product49, product50)
+
+#View(allProds)
+
+```
