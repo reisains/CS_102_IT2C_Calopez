@@ -13,20 +13,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-Scraping 50 products
-```{r}
 
+Scraping 50 Amazon Products
+
+```{r}
 library(dplyr)
 library(rvest)
 library(polite)
 library(httr)
 library(selectr)
-
+library(readr)
 scrapeAmazonReviews <- function(product_name, url_stub, pages) {
   product_df <- data.frame()
 
   for (page in pages) {
-    link <- paste0("https://www.amazon.co.uk/ref=nav_logo",url_stub,"/ref=cm_cr_arp_d_paging_btm_next_", page, "?ie=UTF8&reviewerType=all_reviews&pageNumber=", page)
+    link <- paste0("https://www.amazon.com.au/",url_stub,"/ref=cm_cr_arp_d_paging_btm_next_", page, "?ie=UTF8&reviewerType=all_reviews&pageNumber=", page)
     session <- bow(link, user_agent = "Educational Purpose")
 
     scrapeNodes <- function(selector) {
@@ -52,42 +53,42 @@ scrapeAmazonReviews <- function(product_name, url_stub, pages) {
       type_of_purchase = scrapedType
     ))
 
-    Sys.sleep(3)
+    #Sys.sleep(1)
   }
 
   return(product_df)
 }
-
+```
 ```
 
-1-10 Product
+1-10 Slides: Crocs
 
 ```{r}
     
 product1 <- scrapeAmazonReviews(
-  "adidas Unisex's Adilette Aqua Slide Sandal",
-  "Adidas-Unisex-Adults-Adilette-Beach/product-reviews/B07F73JQ96",
+  "Crocs Unisex-Adult Classic Cozzzy Fuzzy Sandals Slide",
+  "Crocs-Unisex-Adult-Classic-Platform-Slippers/product-reviews/B0BFNN9TPR",
   3:7
 )
 
 
 product2 <- scrapeAmazonReviews(  
-  "Crocs Unisex Classic Sandal",
-  "Crocs-Unisex-Classic-Sandal-Navy/product-reviews/B08KJ9S6KV",
+  "Crocs Unisex Adult Mellow Recovery Slide",
+  "Crocs-Unisex-Adult-Mellow-Recovery/product-reviews/B0BFNN6P1N",
   6:10
 )
 
 
 product3 <- scrapeAmazonReviews(
-  "PUMA Unisex's Purecat Slide Sandal",
-  "Puma-Purecat-Unisex-Open-Back-Peacoat/product-reviews/B011V53CW0",
+  "Crocs Unisex Adults Bayaband Slide",
+  "Crocs-Womens-Unisex-Adult-Bayaband-Sandal/product-reviews/B07B8G7KRP",
   3:7
 )
 
 
 product4 <- scrapeAmazonReviews(
-  "Arena Softy, Unisex Kids Slide Sandals",
-  "Arena-Softy-Slide-Sandals-Turquoise-Eolian/product-reviews/B01CX76T9S",
+  "Crocs Unisex Classic Sandal",
+  "Crocs-Classic-Sandal-Unisex-Slide/product-reviews/B088YT7JS4",
   3:7
 )
 
@@ -98,56 +99,57 @@ product5 <- scrapeAmazonReviews(
   3:7
 )
 
-
 product6 <- scrapeAmazonReviews(
-  "Arena Bruno, Unisex Slide Sandals",
-  "Arena-Unisexs-Bruno-Sandals-Yellow/product-reviews/B0968MT78Q",
+  "Crocs womens Classic Platform Slide",
+  "Crocs-Womens-Classic-Platform-Sandals/product-reviews/B0B4SGW2FB",
   3:7
 )
 
 
 product7 <- scrapeAmazonReviews(
-  "Crocs Unisex's Baya Ii Slides Clog",
-  "Crocs-Unisexs-Baya-Slides-Clog/product-reviews/B0CQ4C2QFT",
+  "Crocs Unisex Kids Classic Pokemon Clog T",
+  "Crocs-Unisex-Classic-Pokemon-White/product-reviews/B09P1J5KTN",
   3:7
 )
 
 
 product8 <- scrapeAmazonReviews(
-  "Havaianas Unisex's Old Slide Brasil Sandal",
-  "Havaianas-Unisexs-Slide-Brasil-Sandal/product-reviews/B0CBVLDWBY",
+  "Crocs Women's Splash Slides Sandal",
+  "Crocs-Womens-Splash-Slides-Sandal/product-reviews/B0B4SGCP2K",
   3:7
 )
+
 
 product9 <- scrapeAmazonReviews(
-  "PUMA Women's Cool Cat 2.0 Sport WNS Slide Sandal",
-  "PUMA-Womens-Sport-Slide-Sandal/product-reviews/B09YVX97V1",
+  "Crocs Unisex-Adult Baya Ii Slides Sandal",
+  "Crocs-Unisex-Adult-Slides-Sandal-Black/product-reviews/B0B4SDYCF8",
   3:7
 )
 
+
 product10 <- scrapeAmazonReviews(
-  "Tommy Hilfiger Men's Rubber Th Flag Pool Slide Sandal",
-  "Tommy-Hilfiger-Mens-Rubber-Slide/product-reviews/B0BG2B3GY1",
+  "Crocs Men's Clogs",
+  "Crocs-Unisex-Literide-Sandal-Stucco/product-reviews/B0C5K141PK",
   6:10
 )
 
+
 ```
 
-11-20 Products
+11-20 Slides: Adidas
 
 ```{r}
     
 product11 <- scrapeAmazonReviews(
-  "Fitflop Women's Iqushion Two-bar Buckle Slides Sandal",
-  "Fitflop-Womens-Iqushion-Two-bar-Buckle/product-reviews/B0C66H328V",
+  "adidas Men's Adilette Aqua Slipper",
+  "adidas-Adilette-Aqua-AD-Black-Sandals/product-reviews/B07F73JQ96",
   3:7
 )
 
 
-
 product12 <- scrapeAmazonReviews(
-  "adidas Unisex Kid's Adilette Aqua Slide Sandal",
-  "adidas-Unisex-Adilette-Fitness-Negbás/product-reviews/B07KSPTWHH",
+  "adidas Unisex-Adult Adissage Slides Sandal",
+  "adidas-Unisex-Adilette-3-Stripes-Slippers/product-reviews/B09HZDJN4X",
   3:7
 )
 
@@ -158,309 +160,283 @@ product13 <- scrapeAmazonReviews(
   3:7
 )
 
+
 product14 <- scrapeAmazonReviews(
-  "adidas Unisex's Adilette Aqua Slide Sandal",
-  "adidas-Unisex-Adults-Adilette-Bianco/product-reviews/B07K3698WB",
+  "adidas",
+  "adidas-Performance-Adissage-Black-Sandals/product-reviews/B07J4P9XSN",
   3:7
 )
 
 
 product15 <- scrapeAmazonReviews(
-  "Leevar Platform Sandals for Women ",
-  "Leevar-Platform-Sandals-Women-Backless/product-reviews/B0BTP1MYTR",
+  "adidas Women's Adilette",
+  "adidas-G28695-Womens-Adilette-Sandal/product-reviews/B07D9FVM29",
   3:7
 )
 
 
 product16 <- scrapeAmazonReviews(
-  "Lico Unisex's Barracuda V Beach & Pool Shoes",
-  "Lico-Barracuda-Unisex-Adults-Royalblau/product-reviews/B005ZSFR5K",
+  "adidas Men's Adilette Comfort Slide Sandals, Core Black/Cloud White/Cloud White, 4 US",
+  "adidas-Unisex-Child-Boys-Girls-Adilette/product-reviews/B07SDTSNLK",
   3:7
 )
 
 
 product17 <- scrapeAmazonReviews(
-  "Fitflop Women's Iqushion Two-bar Buckle Slides Sandal",
-  "Fitflop-Womens-Iqushion-Buckle-Sandal/product-reviews/B0BHHWFP1T",
+  "adidas Women's Adilette Clogs Slide Sandal",
+  "Adidas-Adilette-Comfort-Black-Sandals/product-reviews/B073RK4BPP",
   3:7
 )
 
+
 product18 <- scrapeAmazonReviews(
-  "Arena Softy, Unisex Kids Slide Sandals",
-  "Arena-Unisex-Softy-Fuchsia-Bright/product-reviews/B018UJYUBC",
+  "adidas Originals Adilette Slip-On Slides",
+  "adidas-Unisexs-Adilette-Slide-Sandal/product-reviews/B0BZ7G4RZD",
   3:7
 )
 
 
 product19 <- scrapeAmazonReviews(
-  "Arena Hydrosoft II Slide Sandals",
-  "Arena-Unisex-Badesandale-Hydrosoft-Sandals/product-reviews/B084485TGY",
+  "adidas",
+  "Adidas-Originals-Adilette-Sport-Slide/product-reviews/B002W6ZAY6",
   4:8
 )
 
 
 product20 <- scrapeAmazonReviews(
-  "Havaianas Unisex Slide Classic Pop Gelb Schiebe-Sandalen",
-  "Havaianas-Unisex-Slide-Classic-Sandal/product-reviews/B0B6CFC4H1",
+  "adidas Unisex-Adult Adissage Sandal",
+  "adidas-Performance-Adissage-Black-Sandals/product-reviews/B07K2KHYZS",
   3:7
 )
 
+
 ```
 
-Scraping 21-30
+Scraping 21-30 Nike Products
 
 ```{r}
 
 product21 <- scrapeAmazonReviews(
-  "UGG Women's W Kenleigh Slide Sandal",
-  "UGG-Womens-Kenleigh-Sandal-Chestnut/product-reviews/B09ZL8MLTJ",
+  "Nike Men's Victori One Slide",
+  "Nike-Victori-Slide-Running-Black-White/product-reviews/B08Q9MLZZM",
   3:7
 )
 
-```
 
-
-```{r}
 product22 <- scrapeAmazonReviews(
-  "Under Armour Women's Ua W Locker Iv Sl Slide Sandal",
-  "Under-Armour-Womens-Locker-Sandal/product-reviews/B0BGQP8J36",
+  "Nike Men's Revolution 6 Nn Sneaker, Black White Iron Grey, 11.5 UK, Black White Iron Grey, 12.5 US",
+  "Nike-Revolution-Flyease-Running-Black/product-reviews/B098PCGH4F",
   3:7
 )
 
-
-```
-
-```{r}
 
 product23 <- scrapeAmazonReviews(
-  "PUMA Women's Cool Cat 2.0 WNS Slide Sandal",
-  "PUMA-Womens-Slide-Sandal-Pink-Rose/product-reviews/B09YVLRKZM",
+  "Nike Men's Victori One Shower Slide Trail Running Shoe, Black/White-Black",
+  "Shower-Slide-Beach-Shoes-White/product-reviews/B08QBM6GKF",
   3:7
 )
 
 
-```
-
-
-```{r}
 product24 <- scrapeAmazonReviews(
-  "Fitflop Women's Iqushion Pool Slide Ii Shearling Sandal",
-  "Fitflop-Womens-Iqushion-Shearling-Sandal/product-reviews/B0BLF1WRRW",
+  "Nike Damen Victori One Slide Sandal",
+  "Nike-Womens-Victori-Running-White-Black/product-reviews/B08P5LMTG8",
   3:7
 )
-```
 
 
-
-```{r}
 product25 <- scrapeAmazonReviews(
-  "Crocs Unisex's Minecraft Classic Slide SMU",
-  "Crocs-Unisex-Minecraft-Classic-Slide/product-reviews/B0B8DNYJ11",
+  "Nike Men's Victori One Slide Print Slippers",
+  "Nike-Shower-Slide-Beach-Shoes/product-reviews/B08QBJB2Q5",
   3:7
 )
 
-
-```
-
-```{r}
 product26 <- scrapeAmazonReviews(
-  "NIVEA MEN Sensitive Face Moisturiser with Zero Percent Alcohol, Sensitive Skin Moisturiser, Men's Skin Care Essentials, (75ml)",
-  "NIVEA-Sensitive-Moisturiser-Percent-Essentials/product-reviews/B08G9C4TH4",
+  "Nike Unisex Everyday Cushion Ankle Training Socks (3 Pair)",
+  "Nike-Unisex-Everyday-Cushion-Training/product-reviews/B07GBH42SG",
   3:7
 )
 
 
-```
-
-```{r}
 product27 <- scrapeAmazonReviews(
-  "E45 Moisturiser for Dry Skin and Sensitive Skin Cream, 50g",
-  "E45-26557-Dermatological-Cream-50g/product-reviews/B002ISB9NO",
+  "Nike Women's W VICTORI ONE Slide Gymnastics Shoe",
+  "Nike-womens-Slider-Black-9/product-reviews/B08NFC2MPJ",
   3:7
 )
 
-```
 
-```{r}
 product28 <- scrapeAmazonReviews(
-  "Neutrogena Hydro Boost Water Gel Moisturiser, 50 ml (Pack of 1)",
-  "Neutrogena-Hydro-Boost-Water-Moisturiser/product-reviews/B01LZUCVV5",
+  "Nike Kawa Slide Se (TD), Unisex-Children and Youth Sneakers",
+  "Nike-Slide-Infant-Toddler-White/product-reviews/B086R7TBSK",
   3:7
 )
 
-```
 
-```{r}
 product29 <- scrapeAmazonReviews(
-  "Garnier Intensive 7 Days Shea Butter Body Lotion Dry Skin, with glycerin - 400 ml",
-  "Garnier-Intensive-Butter-Lotion-400ml/product-reviews/B00E3BH6A4",
+  "Nike Everyday Cushion Crew Training Socks",
+  "Unisex-Everyday-Cushion-Black-X-Large/product-reviews/B07FKF3R3F",
   3:7
 )
 
-```
 
-31-40 Products
-
-```{r}
 product30 <- scrapeAmazonReviews(
-  "BYOMA Moisturizing Rich Cream 50ml",
-  "BYOMA-Moisturizing-Rich-Cream-50ml/product-reviews/B0BZX2RLNX",
+  "Nike Men's M NK DRY PARK VII JSY SS T-shirt",
+  "Nike-Mens-T-Shirt-University-White/product-reviews/B07W4SY5QH",
   3:7
 )
 
 
 ```
 
-31-40 Products
+
+31-40 Under Armour Products
 
 ```{r}
+
 product31 <- scrapeAmazonReviews(
-  "BYOMA Moisturizing Gel Cream 50ml",
-  "BYOMA-Moisturizing-Gel-Cream-50ml/product-reviews/B0BJ74DJXG",
+  "Under Armour Men's Locker Camo Slide Sandal",
+  "Under-Armour-Walking-Black-White/product-reviews/B08FTKT8S6",
   3:7
 )
 
 
 product32 <- scrapeAmazonReviews(
-  "NEUTROGENA® Clear & Radiant Moisturiser 50ml",
-  "Neutrogena-Refreshingly-Clear-Oil-Free-Moisturiser/product-reviews/B07WFXFDXV",
+  "Under Armour Men's Tech Short Sleeve T-Shirt",
+  "Under-Armour-Sleeve-Graphite-Medium/product-reviews/B0785VMVF4",
   3:7
 )
 
 
 product33 <- scrapeAmazonReviews(
-  "NIVEA Q10 Firming Rich Body Lotion with Vitamin C (400ml)",
-  "NIVEA-Vitamin-Firming-Body-Lotion/product-reviews/B07999MP3C",
+  "Under Armour Men's UA Locker IV Slides Sandal",
+  "Under-Armour-Mens-Locker-Gray/product-reviews/B087T3J1DR",
   3:7
 )
 
 
 product34 <- scrapeAmazonReviews(
-  "Cetaphil Redness Relieving Daily Facial Moisturizer SPF 20, 1.7 Ounce",
-  "Cetaphil-Redness-Relieving-Facial-Moisturizer/product-reviews/B01M31HUYJ",
+  "Under Armour Men's UA Locker IV Slides Sandal",
+  "Under-Armour-Locker-Slides-Academy/product-reviews/B093Y7SNVG",
   3:7
 )
 
 
 product35 <- scrapeAmazonReviews(
-  "Neutrogena Clear and Defend Moisturiser, 50 ml",
-  "Neutrogena-Visibly-Clear-Proofing-Moisturiser/product-reviews/B071XFFTF1",
+  "Under Armour Men's Ansa Fix Slide Sandal",
+  "Under-Armour-Slide-Sandal-Royal/product-reviews/B082JH3P5W",
   3:7
 )
-
 
 
 product36 <- scrapeAmazonReviews(
-  "Neutrogena Visibly Renew Firming Body Lotion, Aloe Vera, 400ml",
-  "Neutrogena-Visibly-Renew-Body-Lotion/product-reviews/B00UG8OJMG",
+  "Under Armour",
+  "Under-Armour-HeatGear-Shorts-Black/product-reviews/B089T92G55",
   3:7
 )
-
 
 
 product37 <- scrapeAmazonReviews(
-  "Bulldog Sensitive Moisturiser for Men, 100ml, (Pack of 1)",
-  "Bulldog-105696278-Sensitive-Moisturiser-100ml/product-reviews/B0050G2N8Q",
+  "Under Armour",
+  "Under-Armour-Unisex-3021286-400-8-Academia/product-reviews/B07KTMZTYB",
   3:7
 )
-
 
 
 product38 <- scrapeAmazonReviews(
-  "Neutrogena Visibly Renew Firming Body Lotion, Aloe Vera, 400ml",
-  "Neutrogena-Visibly-Renew-Body-Lotion/product-reviews/B00UG8OJMG",
+  "Under Armour Unisex Adults Ua Core Pth Sl Beach & Pool Shoes",
+  "Under-Armour-Unisex-Adults-Beach/product-reviews/B07PWNP4C2",
   3:7
 )
 
 
-
 product39 <- scrapeAmazonReviews(
-  "E45 Dermatological Moisturising Lotion 200 ml – Body Lotion – Daily Moisturiser for Long-Lasting Hydration for Dry Skin and Sensitive Skin – Protect from Dryness, Reduce Redness and Flaking",
-  "E45-Dermatological-Moisturising-Lotion-200/product-reviews/B00127X15G",
+  "Under Armour Men's UA Surge 3",
+  "Under-Armour-Surge-Running-Shoes/product-reviews/B09691RG2X",
   3:7
 )
 
 
 product40 <- scrapeAmazonReviews(
-  "E45 Moisturiser for Dry Skin and Sensitive Skin Cream, 50g",
-  "E45-26557-Dermatological-Cream-50g/product-reviews/B002ISB9NO",
+  "Under Armour",
+  "Under-Armour-Charged-Assert-Sneaker/product-reviews/B09XBVQNWQ",
   3:7
 )
 
+
 ```
 
-41-50 Products
+41-50 THE NORTH FACE Products
 
 ```{r}
+
 product41 <- scrapeAmazonReviews(
-  "CeraVe Moisturizers, Moisturizing Facial Lotion AM, 3 Ounce",
-  "CeraVe-Moisturizers-Moisturizing-Facial-Lotion/product-reviews/B00F97FHAW",
+  "THE NORTH FACE Men's Base Camp Iii Flip-Flop",
+  "North-Face-Slide-White-Black/product-reviews/B08NWFCD7R",
   3:7
 )
 
 
 product42 <- scrapeAmazonReviews(
-  "Clean & Clear Dual Action Moisturiser, 100ml",
-  "Clean-Clear-Action-Moisturiser-100ml/product-reviews/B001RYNKYQ",
+  "THE NORTH FACE Unisex Vault Rucksack",
+  "North-Face-Vault-TNF-Black/product-reviews/B0823VZ3PH",
   3:7
 )
 
 
 product43 <- scrapeAmazonReviews(
-  "Neutrogena® Hydro Boost Gel Cream 50ml",
-  "Neutrogena-Hydro-Boost-Cream-Moisturiser/product-reviews/B01M1G3W04",
+  "THE NORTH FACE Unisex's Jester Shoulder Bag, One Size, Tnf Black",
+  "NORTH-FACE-Unisexs-Jester-Shoulder/product-reviews/B09JQKX6MG",
   3:7
 )
 
 
 product44 <- scrapeAmazonReviews(
-  "Neutrogena Deep Moisture Fast Absorbing Balm, 300ml",
-  "Neutrogena-Norwegian-Formula-Moisture-Comfort/product-reviews/B008QNN2DU",
+  "THE NORTH FACE Women's Base Camp Iii Sandal, M",
+  "North-Womens-Slide-White-Black/product-reviews/B08NWDTTFT",
   3:7
 )
 
 
 product45 <- scrapeAmazonReviews(
-  "Palmer's Cocoa Butter Formula Moisturizing Lotion 250ml, 4180",
-  "Palmers-Butter-Formula-Moisturizing-Lotion/product-reviews/B00119TXSO",
+  "The North Face Women's Thermoball Traction Mule",
+  "North-Face-Thermoball-Traction-Slippers/product-reviews/B07N98SS39",
   3:7
 )
 
 
 product46 <- scrapeAmazonReviews(
-  "NEUTROGENA® Clear & Soothe Moisturiser 75ml",
-  "Neutrogena-Clear-Soothe-Oil-Free-Moisturiser/product-reviews/B081S1YGXH",
+  "THE NORTH FACE Women's Etip Gloves",
+  "North-Womens-Recycled-Glove-Black/product-reviews/B083LWD6LT",
   3:7
 )
 
 
 product47 <- scrapeAmazonReviews(
-  "NEUTROGENA® Clear & Soothe Moisturiser 75ml",
-  "Neutrogena-Clear-Soothe-Oil-Free-Moisturiser/product-reviews/B081S1YGXH",
+  "THE NORTH FACE Jester Backpack",
+  "North-Face-Womens-Jester-Black/product-reviews/B0823VNN1P",
   3:7
 )
 
 
-
-
 product48 <- scrapeAmazonReviews(
-  "Buttermilk Moisturizer 59ml",
-  "Mario-Badescu-Buttermilk-Moisturizer-59ml/product-reviews/B0BHJP1R2Q",
+  "Tzowla Travel Laptop Backpack,Durable Water Resistant Anti-Theft 50L Extra Large 17.3 Inch with USB Charging Port and Lock Fit Computer Business Bookbag for Women Men College School Gift",
+  "Business-Backpack-Resistant-Anti-theft-Backpacks/product-reviews/B075SZQN9Q",
   3:7
 )
 
 
 product49 <- scrapeAmazonReviews(
-  "Bio Balance Dermasebum Purifying Skin Care Cream, 55ml",
-  "Bio-Balance-Dermasebum-Purifying-Cream/product-reviews/B07MQTBCW2",
+  "THE NORTH FACE Men's Jim Beanie",
+  "North-Face-Beanie-Shady-Blue/product-reviews/B09TPVKTMX",
   3:7
 )
 
+
 product50 <- scrapeAmazonReviews(
-  "FREZYDERM MOISTURIZING Plus Cream PN: B00TDQ7LOK",
-  "FrezyDerm-427101-FREZYDERM-Moisturizing-Cream/product-reviews/B00TDQ7LOK",
+  "THE NORTH FACE Men's Bones Recycled Beanies",
+  "North-Bones-Recycled-Beanie-Cordovan/product-reviews/B09TPVQR4G",
   3:7
 )
+
 
 ```
 
@@ -477,4 +453,6 @@ allProds <- rbind(allProds, product1, product2, product3, product4, product5, pr
 
 #View(allProds)
 
+write.csv(allProds, "/cloud/project/LabExer#2/ScrapedAmazonProducts.csv")
 ```
+
