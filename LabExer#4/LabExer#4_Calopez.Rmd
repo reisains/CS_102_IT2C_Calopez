@@ -83,18 +83,19 @@ end - start # Total Elapsed Time
 
 # Export the result
 save(papers, file = "Arxiv_Data_Science.RData")
-write.csv(papers, file = "Arxiv papers on Data Science.csv")
+write.csv(papers, file = "Arxiv_Data_Science.csv")
 
 ```
 
+// inserting data to my database
 
-INSERTING DATA TO THE DATABASE
 ```{}
-install.packages("dbplyr")
+#install.packages("dplyr")
 library(DBI)
 library(odbc)
 library(RMySQL)
 library(dplyr,dbplyr)
+  
  connection <- dbConnect(RMySQL::MySQL(),
                          dsn="MariaDB-connection",
                          Server = "localhost",
@@ -105,30 +106,61 @@ library(dplyr,dbplyr)
 ```
 
 
+```{}
 
+#install.packages("readr")
+library(readr)
 
-## Writing Table to Database
+articles <- read.csv("Arxiv_Data_Science.csv")
+tail(articles)
+
+```
+
+// writing table to database 
 
 ```{}
 
 
-dbWriteTable(connection, 'arXivArticles', articles, append = TRUE)
+#dbWriteTable(connection,'arvixLab4Articles', articles, append = TRUE)
 
 ```
 
-### LISTING TABLES AND FIELDS
-
+// listing table and fiels 
 ```{}
 dbListTables(connection)
-dbListFields(connection,'arXivArticles')
+dbListFields(connection,'arvixLab4Articles')
 ```
 
-### READING DATA FROM TABLE
-
+reading data from table 
 ```{}
 
-review_data <- dbGetQuery(connection, "SELECT * FROM calopez2C.arXivArticles")
+review_data <- dbGetQuery(connection, "SELECT * FROM calopez2C.arvixLab4Articles")
 glimpse(review_data)
 
 ```
 
+// Close the database connection
+
+```{}
+
+dbDisconnect(connection)
+
+```
+
+
+// to show if the table exist:
+// SHOW CREATE TABLE arvixlab4articles;
+
+Table: arvixlab4articles
+
+Create Table: 
+
+CREATE TABLE arvixlab4articles (
+row_names TEXT,
+X BIGINT DEFAULT NULL,
+title TEXT,
+author TEXT,
+subject TEXT,
+abstract TEXT,
+meta TEXT
+);
